@@ -1,25 +1,17 @@
-import { useState } from "react";
-import Home from "./pages";
+import { BrowserRouter, Route, Routes } from "react-router";
+import HomePage from "./pages/index.tsx";
+import ResultsPage from "./pages/results.tsx";
+import DetailPage from "./pages/detail.tsx";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <section id="center">
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <section id="spacer"></section>
-
-      <Home />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/results" element={<ResultsPage />} />
+        <Route path="/books/:bookId" element={<DetailPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
