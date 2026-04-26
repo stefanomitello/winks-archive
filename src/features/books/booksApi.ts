@@ -18,13 +18,17 @@ function toHttps(url: string | undefined) {
 }
 
 function mapVolumeToBook(volume: GoogleBooksVolume): BookDetail {
+  console.log(volume);
+
   const info = volume.volumeInfo ?? {};
 
   return {
     id: volume.id,
     title: info.title?.trim() || "Titolo non disponibile",
     authors: info.authors ?? [],
-    thumbnail: toHttps(info.imageLinks?.thumbnail ?? info.imageLinks?.smallThumbnail),
+    thumbnail: toHttps(
+      info.imageLinks?.thumbnail ?? info.imageLinks?.smallThumbnail,
+    ),
     description: info.description ?? null,
     publisher: info.publisher ?? null,
     publishedDate: info.publishedDate ?? null,
@@ -57,7 +61,9 @@ export const booksApi = createApi({
 
         return `volumes?${params.toString()}`;
       },
-      transformResponse: (response: GoogleBooksResponse): BooksSearchResult => ({
+      transformResponse: (
+        response: GoogleBooksResponse,
+      ): BooksSearchResult => ({
         items: (response.items ?? []).map(mapVolumeToBook),
         totalItems: response.totalItems ?? 0,
       }),
